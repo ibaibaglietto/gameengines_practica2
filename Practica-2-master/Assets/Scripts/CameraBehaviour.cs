@@ -9,16 +9,22 @@ public class CameraBehaviour : MonoBehaviour
      * - ALtura mínima (4f)
      * - Factor de altura
      */
+    public GameObject player;
+    public float minHeight;
+    public float heightFact;
 
     /* Variables privadas
      * - Altura
     */
+    float height;
 
     // Update is called once per frame
     void LateUpdate()
     {
+        transform.position = new Vector3(player.transform.position.x, player.transform.position.y + height, player.transform.position.z);
         // Mi posicion = posicion de objetivo + Altura
         // Altura = [Altura mínima, Altura mínima + velocidad objetivo * factor de altura]
-
+        Rigidbody rb = player.GetComponent<Rigidbody>();
+        height = minHeight * (1 + rb.velocity.magnitude / heightFact);
     }
 }
