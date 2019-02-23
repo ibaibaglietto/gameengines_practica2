@@ -21,10 +21,11 @@ public class CameraBehaviour : MonoBehaviour
     // Update is called once per frame
     void LateUpdate()
     {
+        //Calculamos la posición de la cámara
         transform.position = new Vector3(player.transform.position.x, player.transform.position.y + height, player.transform.position.z);
-        // Mi posicion = posicion de objetivo + Altura
-        // Altura = [Altura mínima, Altura mínima + velocidad objetivo * factor de altura]
+        //Conseguimos el rigidbody
         Rigidbody rb = player.GetComponent<Rigidbody>();
+        //Calculamos la nueva altura de la cámara
         height = minHeight * (1 + rb.velocity.magnitude / heightFact);
     }
 }
