@@ -6,13 +6,15 @@ public class BulletBehaviour : MonoBehaviour
 {
     public float speed;
 
+    float distance = 1.0f;
+    float actualDistance = 0.0f;
     Vector3 direction;
 
     public void setDirection(Vector3 dir)
     {
         direction = dir;
     }
-    
+
     void FixedUpdate()
     {
         transform.position += speed * direction;
@@ -33,5 +35,10 @@ public class BulletBehaviour : MonoBehaviour
             }
             Destroy(gameObject);
         }
+    }
+    void Update()
+    {
+        actualDistance += 0.01f;
+        if (actualDistance > distance) Destroy(gameObject);
     }
 }

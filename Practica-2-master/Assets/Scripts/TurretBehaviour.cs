@@ -10,24 +10,30 @@ public class TurretBehaviour : MonoBehaviour
     public float shootRange;
     public float shootFrequency;
 
+    float maxRange;
     float lastShot;
 
 
     // Update is called once per frame
     void Update()
     {
-        float dist = Mathf.Sqrt(Mathf.Pow(transform.position.x - player.transform.position.x, 2) + Mathf.Pow(transform.position.z - player.transform.position.z, 2));
-        print(dist);
-        if (dist < shootRange)
+        float distPlayer = Mathf.Sqrt(Mathf.Pow(transform.position.x - player.transform.position.x, 2) + Mathf.Pow(transform.position.z - player.transform.position.z, 2));
+        if (distPlayer < shootRange)
         {
             cannon.LookAt(player);
-            shot();
-
+            if(lastShot >= shootFrequency) shot();
         }
+        lastShot += 0.01f;
+
+        
     }
 
     void shot()
     {
+        lastShot = 0.0f;
+        bullet.transform.position = transform.position;
+        bullet.tag = tag;
+        Instantiate(bullet).GetComponent<BulletBehaviour>().setDirection(cannon.forward);
 
     }
 }

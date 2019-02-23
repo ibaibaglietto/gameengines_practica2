@@ -11,10 +11,13 @@ public class PlayerBehaviour : MonoBehaviour
     public float aceleration;
     public float rotationAceletarion;
     public GameObject bullet;
+    public float shootFrequency;
 
+    float lastShot = 1.0f;
     
     public void shot()
     {
+        lastShot = 0.0f;
         bullet.transform.position = transform.position;
         bullet.tag = tag;
         Instantiate(bullet).GetComponent<BulletBehaviour>().setDirection(transform.forward);
@@ -23,8 +26,9 @@ public class PlayerBehaviour : MonoBehaviour
 
     public void baseFounded()
     {
-        bases += bases;
-        print("¡Fin del juego!");
+        bases += 1;
+        lifes = 3;
+        if(bases ==4) print("¡Fin del juego!");
     }
 
     public void hit(GameObject other)
@@ -38,7 +42,7 @@ public class PlayerBehaviour : MonoBehaviour
         else
         {
             print("Player: Daño recibido");
-            rb.AddExplosionForce(500.0f, other.transform.position, 3.5f);
+            rb.AddExplosionForce(100.0f, other.transform.position, 3.5f);
         }
     }
 
@@ -65,7 +69,8 @@ public class PlayerBehaviour : MonoBehaviour
         }
         if (Input.GetKey(KeyCode.Space))
         {
-            shot();            
+            if (lastShot >= shootFrequency) shot();
+            lastShot += 0.1f;
         }
         if (Input.GetKey(KeyCode.R))
         {
